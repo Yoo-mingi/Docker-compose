@@ -1,0 +1,16 @@
+요구사항 :
+1. 그라파나의 3000번 포트는 호스트의 3000번 포트와 포트바인딩
+2. 그라파나의 설정파일인 Grafana.ini 는 호스트에서 주입 가능하도록 구성
+3. Grafana의 로컬 데이터 저장 경로를 확인하여 도커 볼륨 바인드
+4. Grafana의 플러그인 추가 설치를 위한 환경변수 설정
+5. 로그 드라이버 옵션을 통해 로그 로테이팅
+
+유의점 :
+그라파나는 기본적으로 DB를 사용하는데, DB는 Litesql이다.
+MySQL로 변경해서 할 것.
+
+2단계 요구사항 : 
+Grafana.ini 을 통해 DB를 lite->My 로 변경 
+
+그라파나 도커 가이드 : https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker/
+MySQL 도커 가이드 : https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker/

@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  image: grafana/grafana:8.2.2
+  restart: unless-stopped //서버가 재시작 되더라도 도커 컨테이너를 다시 띄움. EC2머신 자체가 컨테이너의 동작을 보장해주는 셈
+  envirment:  //환경변수
+    GF_INSTALL_PLUGINS: grafana-clock-panle //그라파나 클록 패널을 설치. (가이드에 존재(요구사항 참조))
+  ports:
+  - 3000:3000
+  volumes: //볼륨마운트
+  - ./files/grafana.ini:/etc/grafana/grafana.ini:ro // 그라파나 컨테이너의 기본 ini파일을 host의 file밑에 grafana로 마운트. ro(read only)를 통해 읽기전용으로 마운트
+  - grafana-data:/var/lib/grafana // 밑에 생성한 volume를 마운트. DB를 기본값 sqllite로 하고있기에 해당 파일은 기본 파일 위치.
+  logging:
+    driver: "json-file" //형식
+    options: 
+      max-size: "8m" //로그 로테이밍. 8메가, 10개.
+      max-file: "10"
+
+volume:
+  grafana-data:{}
+
+
+
+
+
+
+명령어 :
+docker-compose up up -d
+docker-compose ps
+
+curl localhost:3000
+
+더욱 자세한걸 원한다면, ec2머신의 3000번 포트로 들어가면 댐.
+default id/pass 는 admin/admin

@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+  db
+      image: mysql:.57 //db서비스의 의미지.
+      restart: unless-stopped //restart policy. 환경변수의 정의는 mySQL 공식문서에 존재.
+      enviromant:
+        MYSQL_ROOT_PASSWORD: grafana
+        MYSQL_DATABASE: grafaba
+        MYSQL_USER: grafaba
+        MYSQL_PASSWORD: grafana
+      volumes:
+      - mysql-data:/var/lib/mysql  //mysql데이터 쌓이는 기본위치. host에 마운트.
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "8M"
+          max-file: "10"
+
+
+  grafana
+    depends_on:
+    -db   //depends_on 추가. db컨테이너가 만들어지고, 그 후 그라파나가 만들어지도록 설정.
+    image: grafana/grafana:8.2.2
+    restart: unless-stopped
+    envirment:  //환경변수
+      GF_INSTALL_PLUGINS: grafana-clock-panle   
+    ports:
+    - 3000:3000
+    volumes: //볼륨마운트
+    - ./files/grafana.ini:/etc/grafana/grafana.ini:ro 
+    - grafana-data:/var/lib/grafana 
+    logging:
+      driver: "json-file"
+      options: 
+        max-size: "8m" 
+        max-file: "10"
+  volume:
+    mysql-data:{}
+    grafana-data:{}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+명령어 :
+docker-compose up up -d
+docker-compose ps
+
+curl localhost:3000
+
+init 파일을 보면 설정보기 가능.
